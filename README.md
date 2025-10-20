@@ -1,9 +1,10 @@
 # Bar Simulation
+
 Simple agent-based toy simulation based on the book [The Wisdom of Crowds]([https://en.wikipedia.org/wiki/The_Wisdom_of_Crowds).
 
 ## Short Summary
 
-Simulate a bar, which has space for 100 persons (`n`), but a capacity of 60 (`c`) persons to still have an enjoyable evening. If a person decides to go and there bar is at capacity or higher (>= 60), the bar will be too crowded and is unenjoyable.
+Simulate a bar, which has space for 100 persons (`n`), but a capacity of 60 (`c`) persons to still have an enjoyable evening. If a person decides to go and the bar is at capacity or higher (>= 60), the bar will be too crowded and is unenjoyable.
 The people inside the bar would have been better off staying at home and vice-a-versa.
 
 Keep in mind a person is not allowed to go scope out the bar and then make a decision. They all must make a decision at the same time, and once a decision is made, it cannot be changed.
@@ -12,20 +13,22 @@ The participants have knowledge of past attendance to a certain time period (`d`
 
 Simulation This program is being written to simulate the attendance of the bar with the method discussed above. People will be randomly given a set of strategies to use and evaluate. They will select the best strategy of the ones they have been randomly assigned. They will employ that strategy and then re-evaluate each given strategy for the potential of a new best. The attendance numbers (`a`) are then calculated and stored and the process is to be run again.
 
-
 ### Arthur Strategy
+
 Assume the 100 agents (`n`) can individually form several predictors or hypotheses, in the form of functions that map the past `d`  weeks' attendance figures into next week's. For example, recent attendance (`a`) might be:  
 ..., 44, 78, 56, 15, 23, 67, 84, 34, 45, 76, 40, 56, 22, 35.  
 Particular hypotheses or predictors might be: predict next week's number to be  
+
 - the same as last week's [35]
 - a mirror image around 50 of last week's [65]
 - a (rounded) average of the last four weeks [49]
 - the trend in last 8 weeks, bounded by 0,100 [29]
 - the same as 2 weeks ago (2-period cycle detector) [22]
-- the same as 5  weeks ago (5-period cycle detector) [76]
+- the same as 5 weeks ago (5-period cycle detector) [76]
 - etc.
 
 ### Bell and Sethares Strategy
+
 Bell and Sethares's bargoers all follow the same strategy: if their recent experiences at the bar has been good, they go again. If their recent experiences has been bad, they don't.
 Bell and Sethares's bargoers are therefore much less sophisticated than Arthur's. They didn't worry much about what the
 other bargoers might be thinking, and they don't not know—as
@@ -36,13 +39,15 @@ a good time, they want to go back. If they'd had a bad time, they
 don't.
 
 Let $`f_i`$ be frequency (period) with which the i-th agent wishes to attend and $`p_i`$ the phase (note that $`p_i < f_i`$). Let $`\mu_i`$ be a stepsize parameter that defines how much the i-th agent changes $`f_i`$ in response to new information. The evolution of an agent `i` at time iteration `k` is then defined as:
+
 ```math
 c_i(k + 1) = \begin{cases}
    c_i(k) &\text{if } p_i(k) > 1 \\
    \max(1, f_i(k) + \mu_i(k) \text{Dsgn}(n(k) - n)) &\text{if } p_i(k) \le 1
 \end{cases}
 ```
-where \texttt{Dsgn(x)} represents the signum function with dead zone that is positive when $`x > 0`$, negative when $`x - d \le 0`$, and zero otherwise.
+
+where `Dsgn(x)` represents the signum function with dead zone that is positive when $`x > 0`$, negative when $`x - d \le 0`$, and zero otherwise.
 
 The initial conditions $`f_i(0)`$ and $`p_i(0)`$ are chosen randomly. Each agents phase term $`p_i`$ counts down until it drops below one. Meanwhile, the counter $`f_i`$ remain unchanged. Once $`p_i`$ reaches one, the agent attends the bar. At this point, $`f_i`$ is increased by $`\mu_i`$ if bar attendance exceeds `c` (the bar is crowded), and remains unchaned if attendance falls in the dead zone just below the cutoff point `c`. The phase $`p_i`$ is then reset to the current (updated) value of $`f_i`$.
 
@@ -51,6 +56,7 @@ The initial conditions $`f_i(0)`$ and $`p_i(0)`$ are chosen randomly. Each agent
 <details>
 <summary>Simulation Description ("The Wisdom of Crowds")</summary>
 <br>
+
 Consider, to begin with, this problem. There's a local bar that you
 like. Actually, it's a bar that lots of people like. The problem with
 the bar is that when it's crowded, no one has a good time. You're
@@ -159,6 +165,7 @@ trying to evaluate a reality that their own decisions would help construct. Give
 <details>
 <summary>Paper Description B. Arthur</summary>
 <br>
+
 ### The Bar Problem
 Consider now a problem I will construct to illustrate inductive reasoning and how it might be modeled. N people decide independently each week whether to go to a bar that offers entertainment on a certain night. For concreteness, let us set N at 100. Space is limited, and the evening is enjoyable if things are not too crowded-specifically, if fewer than 60 percent of the possible 100 are present. There is no sure way to tell the numbers coming in advance; therefore a person or agent goes (deems it worth going) if  he expects fewer than 60 to show up or stays home if he expects more than 60 to go. Choices are unaffected by previous visits; there is no collusion or prior communication among the agents; and the only information available is the numbers who came in past weeks. (The problem was inspired by the bar El Farol in Santa Fe which offers Irish music on Thursday nights; but the reader may recognize it as applying to noontime lunch-room crowding, and to other commons or coordination problems with limits to desired coordination.) Of interest is the dynamics of the numbers at- tending from week to week. Notice two interesting features of this problem. First, if there were an obvious model that all agents could use to forecast attendance and base their decisions on, then a deductive solution would be possible. But this is not the case here. Given the numbers attending in the recent past, a large number of expectational models might be reason- able and defensible. Thus, not knowing which model other agents might choose, a reference agent cannot choose his in a well-defined way. There is no deductively rational solution-no "correct" expectational model. From the agents' viewpoint, the problem is ill-defined, and they are propelled into a  world of induction. Second, and diabolically, any commonalty of expectations gets broken up: if all believe few will go, all will go. But this would invalidate that belief. Similarly, if all believe most will go, nobody will go, invalidating that belief.3 Expectations will be forced to differ. At this stage, I invite the reader to pause and ponder how attendance might behave dynamically over time. Will it converge, and if so to what? Will it become chaotic? How might predictions be arrived at? A. A Dynamic Model To answer the above questions, I shall construct a model along the lines of the framework sketched above. Assume the 100 agents can individually form several predictors or hypotheses, in the form of functions that map the past d  weeks' attendance figures into next week's. For example, recent attendance might be:  
 ...,44,78,56,15,23,67,84,34,45,76,40,56,22,35.  
