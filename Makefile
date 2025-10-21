@@ -14,11 +14,11 @@ run:
 	fi
 
 test:
-	@pytest -q
+	python -m unittest -v
 
 venv:
 	python -m venv .venv
-	. .venv/bin/activate && python -m pip install --upgrade pip setuptools wheel
+	source .venv/bin/activate && python -m pip install --upgrade pip setuptools wheel
 	@if [ -f requirements.txt ]; then \
 		. .venv/bin/activate && pip install -r requirements.txt; \
 	fi
