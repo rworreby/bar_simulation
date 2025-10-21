@@ -9,22 +9,17 @@ class Person():
     :param id: int
         Id of the person. Can be used as an identifier.
     """
-    #: Number of instances that exist of class Person
-    n_inst = 0
+    # Number of the instances of class Person
+    id_number = 0
 
     def __init__(self):
-        super().__init__()
-        Person.no_inst += 1
-        self.id = Person.n_inst
+        Person.id_number += 1
+        self.id = Person.id_number
 
-    def __str__(self):
-        pass
+    def __str__(self) -> str:
+        return f"Person ID: {self.id}"
 
     @classmethod
     def get_num_instances(cls):
         """Returns number of instances of class."""
-        return cls.n_inst
-
-    @classmethod
-    def __del__(cls):
-        Person.n_inst -= 1
+        return cls.id_number
