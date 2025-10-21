@@ -21,7 +21,7 @@ class Person():
         pass
 
     @classmethod
-    def get_no_instances(cls):
+    def get_num_instances(cls):
         """Returns number of instances of class."""
         return cls.n_inst
 
