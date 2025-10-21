@@ -31,7 +31,7 @@ def parse_args(argv=None) -> argparse.Namespace:
 def main(argv=None):
     cfg = parse_args(argv)
 
-    print(f"Starting simulation.\n")
+    print("Starting simulation.\n")
 
     start_time = timeit.default_timer()
 
