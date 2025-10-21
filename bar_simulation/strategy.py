@@ -29,6 +29,7 @@ class ArthurStrategy():
     """docstring for ArthurStrategy."""
 
     def __init__(self):
+        super().__init__()
         self.get_strategy_set()
 
     def get_strategy_set(self):

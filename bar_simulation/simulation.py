@@ -9,15 +9,19 @@ class Simulation():
     :param n_weeks: int
         Number of weeks to simulate.
     """
-    #: Number of instances that exist of class Person
-    n_weeks = 0
 
-    def __init__(self):
-        super().__init__()
-        self.n_weeks = 100
+    def __init__(self, config=None):
+        self.duration = config.duration
+        self.output_dir = config.output_dir
+        self.strategy = config.strategy
+        self.past_attendence = config.past_attendenece
 
-    def __str__(self):
-        pass
+    def __str__(self) -> str:
+        return f"Simulation Parameters: \n\
+            Simulation duration: {self.duration}, \n\
+            Output dir: {self.output_dir}, \n\
+            Strategy: {self.strategy}, \n\
+            Past attendence: {self.past_attendence}"
 
     @classmethod
     def get_num_weeks(cls):
