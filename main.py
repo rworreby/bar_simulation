@@ -18,7 +18,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--duration", type=float, default=100, help="Simulated duration in weeks")
     p.add_argument("--output_dir", type=str, default="output/", help="Directory to write snapshots")
     p.add_argument("--log", type=str, default="INFO", help="Logging level")
-    p.add_argument("--strategy", type=str, default="default",
+    p.add_argument("--strategy", type=str, default="arthur",
                    help="Strategy to use in the simulation")
     p.add_argument("--past-attendenece", type=str,
                    default=[44, 78, 56, 15, 23, 67, 84, 34, 45, 76, 40, 56, 22, 35],
@@ -31,15 +31,15 @@ def parse_args(argv=None) -> argparse.Namespace:
 def main(argv=None):
     cfg = parse_args(argv)
 
+    print(f"Starting simulation.\n")
+
     start_time = timeit.default_timer()
 
     sim = Simulation(cfg)
+    print(f"Simulation Parameters: {sim}\n")
 
     end_time = timeit.default_timer()
-    print(f"Simulation took {end_time - start_time} seconds")
-
-    print(cfg)
-    print(sim)
+    print(f"Simulation ended in Simulation took {end_time - start_time} seconds")
 
 
 if __name__ == "__main__":
