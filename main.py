@@ -1,10 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import argparse
-import timeit
-from bar_simulation.simulation import Simulation
-
 """
 Bar Simulation main file.
 
@@ -12,10 +8,14 @@ Features:
 -
 """
 
+import argparse
+import timeit
+import bar_simulation.simulation as simulation
+
 
 def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Simulation setup parameters")
-    p.add_argument("--duration", type=float, default=100, help="Simulated duration in weeks")
+    p.add_argument("--duration", type=int, default=100, help="Simulated duration in weeks")
     p.add_argument("--output_dir", type=str, default="output/", help="Directory to write snapshots")
     p.add_argument("--log", type=str, default="INFO", help="Logging level")
     p.add_argument("--strategy", type=str, default="arthur",
@@ -31,15 +31,25 @@ def parse_args(argv=None) -> argparse.Namespace:
 def main(argv=None):
     cfg = parse_args(argv)
 
-    print("Starting simulation.\n")
-
     start_time = timeit.default_timer()
-
-    sim = Simulation(cfg)
+    sim = simulation.Simulation(cfg)
+    sim.initialize()
+    end_time = timeit.default_timer()
+    print(f"Simulation setup completed in {round(end_time - start_time, 4)} seconds.")
     print(f"Simulation Parameters: {sim}\n")
 
+    print("Starting simulation.\n")
+    start_time = timeit.default_timer()
+    sim.run()
     end_time = timeit.default_timer()
-    print(f"Simulation ended in Simulation took {end_time - start_time} seconds")
+    print(f"Simulation execution completed in {round(end_time - start_time, 4)} seconds.")
+
+    print(f"Saving simulation results to {cfg.output_dir} and plotting data.")
+    start_time = timeit.default_timer()
+    sim.save_data()
+    sim.plot_data()
+    end_time = timeit.default_timer()
+    print(f"Data saving and plotting completed in {round(end_time - start_time, 4)} seconds.")
 
 
 if __name__ == "__main__":
