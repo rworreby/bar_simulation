@@ -3,6 +3,10 @@
 # Based in parts on:
 # https://github.com/JamesTeague/ElFarolBarCapstone/blob/master/Strategy.py
 
+
+import random
+
+
 class Strategies():
     """Class to hold the strategy (information) every person has.
 
@@ -11,8 +15,6 @@ class Strategies():
     :param id: int
         Id of the person. Can be used as an identifier.
     """
-    attendance_list = [44, 78, 56, 15, 23, 67, 84, 34, 45, 76, 40, 56,
-                       22, 35]
 
     def __init__(self):
         self.create_strategies(Strategies.attendance_list)
@@ -21,8 +23,23 @@ class Strategies():
     def create_strategies(self, attendance_list):
         pass
 
-    def get_strategies():
+    def get_strategy():
         return ...
+
+
+class NaiveStrategy():
+    """docstring for NaiveStrategy."""
+
+    def __init__(self):
+        super().__init__()
+
+    def get_strategy(self):
+        """Create an instance of class Strategies.
+        """
+        pass
+
+    def make_decision(self):
+        return int(2 * random.uniform(0, 1))
 
 
 class ArthurStrategy():
